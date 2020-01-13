@@ -11,8 +11,9 @@ extern crate glfw;
 use self::glfw::{Key, Action};
 
 use image;
-use image::GenericImage;
+use image::{GenericImage, DynamicImage};
 use image::DynamicImage::*;
+use image::GenericImageView;
 
 use camera::Camera;
 use camera::Camera_Movement::*;
@@ -89,6 +90,8 @@ pub unsafe fn loadTexture(path: &str) -> u32 {
         ImageLumaA8(_) => gl::RG,
         ImageRgb8(_) => gl::RGB,
         ImageRgba8(_) => gl::RGBA,
+        ImageBgr8(_) => gl::RGB,
+        ImageBgra8(_) => gl::RGBA,
     };
 
     let data = img.raw_pixels();

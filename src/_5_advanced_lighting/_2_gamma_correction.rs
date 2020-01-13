@@ -16,6 +16,7 @@ use std::ffi::CStr;
 use image;
 use image::GenericImage;
 use image::DynamicImage::*;
+use image::GenericImageView;
 
 use common::process_events;
 use shader::Shader;
@@ -245,6 +246,8 @@ pub unsafe fn loadTexture(path: &str, gammaCorrection: bool) -> u32 {
         ImageLumaA8(_) => (gl::RG, gl::RG),
         ImageRgb8(_) => (if gammaCorrection { gl::SRGB } else { gl::RGB }, gl::RGB),
         ImageRgba8(_) => (if gammaCorrection { gl::SRGB_ALPHA } else { gl::RGB }, gl::RGBA),
+        ImageBgr8(_) => (if gammaCorrection { gl::SRGB } else { gl::RGB }, gl::RGB),
+        ImageBgra8(_) => (if gammaCorrection { gl::SRGB_ALPHA } else { gl::RGB }, gl::RGBA),
     };
 
     let data = img.raw_pixels();

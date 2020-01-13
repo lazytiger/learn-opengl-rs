@@ -16,6 +16,7 @@ use shader::Shader;
 
 use image;
 use image::GenericImage;
+use image::GenericImageView;
 
 use cgmath::{Matrix4, vec3,  Deg, Rad, perspective};
 use cgmath::prelude::*;

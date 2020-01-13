@@ -8,7 +8,8 @@ use cgmath::{vec2, vec3};
 use gl;
 use image;
 use image::DynamicImage::*;
-use image::GenericImage;
+use image::{GenericImage, DynamicImage};
+use image::GenericImageView;
 use tobj;
 
 use mesh::{ Mesh, Texture, Vertex };
@@ -121,6 +122,8 @@ unsafe fn TextureFromFile(path: &str, directory: &str) -> u32 {
         ImageLumaA8(_) => gl::RG,
         ImageRgb8(_) => gl::RGB,
         ImageRgba8(_) => gl::RGBA,
+        ImageBgr8(_) => gl::RGB,
+        ImageBgra8(_) => gl::RGBA,
     };
 
     let data = img.raw_pixels();

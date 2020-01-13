@@ -15,6 +15,7 @@ use shader::Shader;
 
 extern crate image;
 use image::GenericImage;
+use image::GenericImageView;
 
 // settings
 const SCR_WIDTH: u32 = 800;

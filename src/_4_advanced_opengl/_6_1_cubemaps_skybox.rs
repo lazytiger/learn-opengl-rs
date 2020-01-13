@@ -18,6 +18,7 @@ use cgmath::prelude::*;
 
 use image;
 use image::GenericImage;
+use image::GenericImageView;
 
 use common::{process_events, processInput, loadTexture};
 use shader::Shader;

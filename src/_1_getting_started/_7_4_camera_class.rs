@@ -19,6 +19,7 @@ use camera::Camera;
 
 use image;
 use image::GenericImage;
+use image::GenericImageView;
 
 use cgmath::{Matrix4, Vector3, vec3,  Deg, perspective, Point3};
 use cgmath::prelude::*;

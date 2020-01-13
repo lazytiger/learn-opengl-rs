@@ -16,6 +16,7 @@ use shader::Shader;
 
 use image;
 use image::GenericImage;
+use image::GenericImageView;
 
 // settings
 const SCR_WIDTH: u32 = 800;

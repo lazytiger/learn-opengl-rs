@@ -23,6 +23,7 @@ use cgmath::prelude::*;
 use image;
 use image::GenericImage;
 use image::DynamicImage::*;
+use image::GenericImageView;
 
 // settings
 const SCR_WIDTH: u32 = 1280;
@@ -311,6 +312,8 @@ pub unsafe fn loadTexture(path: &str) -> u32 {
         ImageLumaA8(_) => gl::RG,
         ImageRgb8(_) => gl::RGB,
         ImageRgba8(_) => gl::RGBA,
+        ImageBgr8(_) => gl::RGB,
+        ImageBgra8(_) => gl::RGBA,
     };
 
     let data = img.raw_pixels();
