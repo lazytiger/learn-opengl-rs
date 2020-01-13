@@ -21,24 +21,47 @@ pub use self::_3_3_shaders_class::*;
 mod _4_1_textures;
 pub use self::_4_1_textures::*;
 mod _4_2_textures_combined;
+
 pub use self::_4_2_textures_combined::*;
+
 mod _4_3_textures_exercise2;
+
 pub use self::_4_3_textures_exercise2::*;
+
 mod _4_4_textures_exercise3;
+
 pub use self::_4_4_textures_exercise3::*;
+
 mod _4_5_textures_exercise4;
+
 pub use self::_4_5_textures_exercise4::*;
+
 mod _5_1_transformations;
+
 pub use self::_5_1_transformations::*;
+
+mod _5_2_transformations_exercise2;
+
+pub use self::_5_2_transformations_exercise2::*;
+
 mod _6_1_coordinate_systems;
+
 pub use self::_6_1_coordinate_systems::*;
+
 mod _6_2_coordinate_systems_depth;
+
 pub use self::_6_2_coordinate_systems_depth::*;
+
 mod _6_3_coordinate_systems_multiple;
+
 pub use self::_6_3_coordinate_systems_multiple::*;
+
 mod _7_1_camera_circle;
+
 pub use self::_7_1_camera_circle::*;
+
 mod _7_2_camera_keyboard_dt;
+
 pub use self::_7_2_camera_keyboard_dt::*;
 mod _7_3_camera_mouse_zoom;
 pub use self::_7_3_camera_mouse_zoom::*;
