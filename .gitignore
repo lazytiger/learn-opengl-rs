@@ -2,3 +2,4 @@
 **/*.rs.bk
 CMakeCache.txt
 .vscode
+.idea
