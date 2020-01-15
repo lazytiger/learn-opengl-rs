@@ -6,7 +6,7 @@ use std::mem::size_of;
 use std::os::raw::c_void;
 use std::ptr;
 
-use cgmath::{ Vector3, Vector2 };
+use cgmath::{Vector3, Vector2};
 use cgmath::prelude::*;
 use gl;
 
@@ -63,8 +63,12 @@ pub struct Mesh {
 impl Mesh {
     pub fn new(vertices: Vec<Vertex>, indices: Vec<u32>, textures: Vec<Texture>) -> Mesh {
         let mut mesh = Mesh {
-            vertices, indices, textures,
-            VAO: 0, VBO: 0, EBO: 0
+            vertices,
+            indices,
+            textures,
+            VAO: 0,
+            VBO: 0,
+            EBO: 0,
         };
 
         // now that we have all the required data, set the vertex buffers and its attribute pointers.
@@ -75,10 +79,10 @@ impl Mesh {
     /// render the mesh
     pub unsafe fn Draw(&self, shader: &Shader) {
         // bind appropriate textures
-        let mut diffuseNr  = 0;
+        let mut diffuseNr = 0;
         let mut specularNr = 0;
-        let mut normalNr   = 0;
-        let mut heightNr   = 0;
+        let mut normalNr = 0;
+        let mut heightNr = 0;
         for (i, texture) in self.textures.iter().enumerate() {
             gl::ActiveTexture(gl::TEXTURE0 + i as u32); // active proper texture unit before binding
             // retrieve texture number (the N in diffuse_textureN)
@@ -87,7 +91,7 @@ impl Mesh {
                 "texture_diffuse" => {
                     diffuseNr += 1;
                     diffuseNr
-                },
+                }
                 "texture_specular" => {
                     specularNr += 1;
                     specularNr

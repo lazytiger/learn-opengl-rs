@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -18,7 +20,7 @@ use image::GenericImage;
 use image::DynamicImage::*;
 use image::GenericImageView;
 
-use common::{process_events};
+use common::process_events;
 use shader::Shader;
 use camera::Camera;
 use camera::Camera_Movement::*;
@@ -54,7 +56,7 @@ pub fn main_5_6() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -102,7 +104,7 @@ pub fn main_5_6() {
         gl::GenTextures(1, &mut colorBuffer);
         gl::BindTexture(gl::TEXTURE_2D, colorBuffer);
         gl::TexImage2D(gl::TEXTURE_2D, 0, gl::RGBA16F as i32,
-            SCR_WIDTH as i32, SCR_HEIGHT as i32, 0, gl::RGBA, gl::FLOAT, ptr::null());
+                       SCR_WIDTH as i32, SCR_HEIGHT as i32, 0, gl::RGBA, gl::FLOAT, ptr::null());
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as i32);
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
 
@@ -124,10 +126,10 @@ pub fn main_5_6() {
         // -------------
         // positions
         let mut lightPositions: Vec<Vector3<f32>> = Vec::new();
-        lightPositions.push(vec3( 0.0,  0.0, 49.5)); // back light
+        lightPositions.push(vec3(0.0, 0.0, 49.5)); // back light
         lightPositions.push(vec3(-1.4, -1.9, 9.0));
-        lightPositions.push(vec3( 0.0, -1.8, 4.0));
-        lightPositions.push(vec3( 0.8, -1.7, 6.0));
+        lightPositions.push(vec3(0.0, -1.8, 4.0));
+        lightPositions.push(vec3(0.8, -1.7, 6.0));
         // colors
         let mut lightColors: Vec<Vector3<f32>> = Vec::new();
         lightColors.push(vec3(200.0, 200.0, 200.0));
@@ -174,28 +176,28 @@ pub fn main_5_6() {
             // 1. render scene into floating point framebuffer
             // -----------------------------------------------
             gl::BindFramebuffer(gl::FRAMEBUFFER, hdrFBO);
-                gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-                let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
-                let view = camera.GetViewMatrix();
-                shader.useProgram();
-                shader.setMat4(c_str!("projection"), &projection);
-                shader.setMat4(c_str!("view"), &view);
-                gl::ActiveTexture(gl::TEXTURE0);
-                gl::BindTexture(gl::TEXTURE_2D, woodTexture);
-                // set lighting uniforms
-                for (i, lightPos) in lightPositions.iter().enumerate() {
-                    let name = CString::new(format!("lights[{}].Position", i)).unwrap();
-                    shader.setVector3(&name, lightPos);
-                    let name = CString::new(format!("lights[{}].Color", i)).unwrap();
-                    shader.setVector3(&name, &lightColors[i]);
-                }
-                shader.setVector3(c_str!("viewPos"), &camera.Position.to_vec());
-                // render tunnel
-                let mut model: Matrix4<f32> = Matrix4::from_translation(vec3(0.0, 0.0, 25.0));
-                model = model * Matrix4::from_nonuniform_scale(2.5, 2.5, 27.5);
-                shader.setMat4(c_str!("model"), &model);
-                shader.setBool(c_str!("inverse_normals"), true);
-                renderCube(&mut cubeVAO, &mut cubeVBO);
+            gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
+            let view = camera.GetViewMatrix();
+            shader.useProgram();
+            shader.setMat4(c_str!("projection"), &projection);
+            shader.setMat4(c_str!("view"), &view);
+            gl::ActiveTexture(gl::TEXTURE0);
+            gl::BindTexture(gl::TEXTURE_2D, woodTexture);
+            // set lighting uniforms
+            for (i, lightPos) in lightPositions.iter().enumerate() {
+                let name = CString::new(format!("lights[{}].Position", i)).unwrap();
+                shader.setVector3(&name, lightPos);
+                let name = CString::new(format!("lights[{}].Color", i)).unwrap();
+                shader.setVector3(&name, &lightColors[i]);
+            }
+            shader.setVector3(c_str!("viewPos"), &camera.Position.to_vec());
+            // render tunnel
+            let mut model: Matrix4<f32> = Matrix4::from_translation(vec3(0.0, 0.0, 25.0));
+            model = model * Matrix4::from_nonuniform_scale(2.5, 2.5, 27.5);
+            shader.setMat4(c_str!("model"), &model);
+            shader.setBool(c_str!("inverse_normals"), true);
+            renderCube(&mut cubeVAO, &mut cubeVBO);
             gl::BindFramebuffer(gl::FRAMEBUFFER, 0);
 
             // 2. now render floating point color buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
@@ -222,47 +224,47 @@ unsafe fn renderCube(cubeVAO: &mut u32, cubeVBO: &mut u32) {
     if *cubeVAO == 0 {
         let vertices: [f32; 288] = [
             // back face
-            -1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 0.0, // bottom-left
-             1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 1.0, // top-right
-             1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 0.0, // bottom-right
-             1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 1.0, 1.0, // top-right
-            -1.0, -1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 0.0, // bottom-left
-            -1.0,  1.0, -1.0,  0.0,  0.0, -1.0, 0.0, 1.0, // top-left
+            -1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // bottom-left
+            1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 1.0, // top-right
+            1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 0.0, // bottom-right
+            1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 1.0, // top-right
+            -1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // bottom-left
+            -1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 1.0, // top-left
             // front face
-            -1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 0.0, // bottom-left
-             1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 0.0, // bottom-right
-             1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 1.0, // top-right
-             1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 1.0, 1.0, // top-right
-            -1.0,  1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 1.0, // top-left
-            -1.0, -1.0,  1.0,  0.0,  0.0,  1.0, 0.0, 0.0, // bottom-left
+            -1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, // bottom-left
+            1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, // bottom-right
+            1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, // top-right
+            1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, // top-right
+            -1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, // top-left
+            -1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, // bottom-left
             // left face
-            -1.0,  1.0,  1.0, -1.0,  0.0,  0.0, 1.0, 0.0, // top-right
-            -1.0,  1.0, -1.0, -1.0,  0.0,  0.0, 1.0, 1.0, // top-left
-            -1.0, -1.0, -1.0, -1.0,  0.0,  0.0, 0.0, 1.0, // bottom-left
-            -1.0, -1.0, -1.0, -1.0,  0.0,  0.0, 0.0, 1.0, // bottom-left
-            -1.0, -1.0,  1.0, -1.0,  0.0,  0.0, 0.0, 0.0, // bottom-right
-            -1.0,  1.0,  1.0, -1.0,  0.0,  0.0, 1.0, 0.0, // top-right
+            -1.0, 1.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0, // top-right
+            -1.0, 1.0, -1.0, -1.0, 0.0, 0.0, 1.0, 1.0, // top-left
+            -1.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, // bottom-left
+            -1.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, // bottom-left
+            -1.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, // bottom-right
+            -1.0, 1.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0, // top-right
             // right face
-             1.0,  1.0,  1.0,  1.0,  0.0,  0.0, 1.0, 0.0, // top-left
-             1.0, -1.0, -1.0,  1.0,  0.0,  0.0, 0.0, 1.0, // bottom-right
-             1.0,  1.0, -1.0,  1.0,  0.0,  0.0, 1.0, 1.0, // top-right
-             1.0, -1.0, -1.0,  1.0,  0.0,  0.0, 0.0, 1.0, // bottom-right
-             1.0,  1.0,  1.0,  1.0,  0.0,  0.0, 1.0, 0.0, // top-left
-             1.0, -1.0,  1.0,  1.0,  0.0,  0.0, 0.0, 0.0, // bottom-left
+            1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, // top-left
+            1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 0.0, 1.0, // bottom-right
+            1.0, 1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 1.0, // top-right
+            1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 0.0, 1.0, // bottom-right
+            1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, // top-left
+            1.0, -1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, // bottom-left
             // bottom face
-            -1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 0.0, 1.0, // top-right
-             1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 1.0, 1.0, // top-left
-             1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 1.0, 0.0, // bottom-left
-             1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 1.0, 0.0, // bottom-left
-            -1.0, -1.0,  1.0,  0.0, -1.0,  0.0, 0.0, 0.0, // bottom-right
-            -1.0, -1.0, -1.0,  0.0, -1.0,  0.0, 0.0, 1.0, // top-right
+            -1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 0.0, 1.0, // top-right
+            1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 1.0, 1.0, // top-left
+            1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, // bottom-left
+            1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, // bottom-left
+            -1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 0.0, 0.0, // bottom-right
+            -1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 0.0, 1.0, // top-right
             // top face
-            -1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0, // top-left
-             1.0,  1.0, 1.0,  0.0,  1.0,  0.0, 1.0, 0.0, // bottom-right
-             1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 1.0, 1.0, // top-right
-             1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 1.0, 0.0, // bottom-right
-            -1.0,  1.0, -1.0,  0.0,  1.0,  0.0, 0.0, 1.0, // top-left
-            -1.0,  1.0,  1.0,  0.0,  1.0,  0.0, 0.0, 0.0,  // bottom-left
+            -1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 0.0, 1.0, // top-left
+            1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, // bottom-right
+            1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 1.0, 1.0, // top-right
+            1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, // bottom-right
+            -1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 0.0, 1.0, // top-left
+            -1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0,  // bottom-left
         ];
         gl::GenVertexArrays(1, cubeVAO);
         gl::GenBuffers(1, cubeVBO);
@@ -295,10 +297,10 @@ unsafe fn renderQuad(quadVAO: &mut u32, quadVBO: &mut u32) {
     if *quadVAO == 0 {
         let quadVertices: [f32; 20] = [
             // positions     // texture Coords
-            -1.0,  1.0, 0.0, 0.0, 1.0,
+            -1.0, 1.0, 0.0, 0.0, 1.0,
             -1.0, -1.0, 0.0, 0.0, 0.0,
-             1.0,  1.0, 0.0, 1.0, 1.0,
-             1.0, -1.0, 0.0, 1.0, 0.0,
+            1.0, 1.0, 0.0, 1.0, 1.0,
+            1.0, -1.0, 0.0, 1.0, 0.0,
         ];
 
         // setup plane VAO
@@ -356,8 +358,7 @@ pub fn processInput(
     if window.get_key(Key::Q) == Action::Press {
         if *exposure > 0.0 {
             *exposure -= 0.01;
-        }
-        else {
+        } else {
             *exposure = 0.0;
         }
         println!("hdr: {} | exposure: {}", if *hdr { "on" } else { "off" }, *exposure);
@@ -388,7 +389,7 @@ pub unsafe fn loadTexture(path: &str, gammaCorrection: bool) -> u32 {
 
     gl::BindTexture(gl::TEXTURE_2D, textureID);
     gl::TexImage2D(gl::TEXTURE_2D, 0, internalFormat as i32, img.width() as i32, img.height() as i32,
-        0, dataFormat, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
+                   0, dataFormat, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
     gl::GenerateMipmap(gl::TEXTURE_2D);
 
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);

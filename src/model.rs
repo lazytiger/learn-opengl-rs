@@ -12,14 +12,15 @@ use image::{GenericImage, DynamicImage};
 use image::GenericImageView;
 use tobj;
 
-use mesh::{ Mesh, Texture, Vertex };
+use mesh::{Mesh, Texture, Vertex};
 use shader::Shader;
 
 #[derive(Default)]
 pub struct Model {
     /*  Model Data */
     pub meshes: Vec<Mesh>,
-    pub textures_loaded: Vec<Texture>,   // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+    pub textures_loaded: Vec<Texture>,
+    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     directory: String,
 }
 
@@ -57,9 +58,9 @@ impl Model {
             let (p, n, t) = (&mesh.positions, &mesh.normals, &mesh.texcoords);
             for i in 0..num_vertices {
                 vertices.push(Vertex {
-                    Position:  vec3(p[i*3], p[i*3+1], p[i*3+2]),
-                    Normal:    vec3(n[i*3], n[i*3+1], n[i*3+2]),
-                    TexCoords: vec2(t[i*2], t[i*2+1]),
+                    Position: vec3(p[i * 3], p[i * 3 + 1], p[i * 3 + 2]),
+                    Normal: vec3(n[i * 3], n[i * 3 + 1], n[i * 3 + 2]),
+                    TexCoords: vec2(t[i * 2], t[i * 2 + 1]),
                     ..Vertex::default()
                 })
             }
@@ -89,7 +90,6 @@ impl Model {
 
             self.meshes.push(Mesh::new(vertices, indices, textures));
         }
-
     }
 
     fn loadMaterialTexture(&mut self, path: &str, typeName: &str) -> Texture {
@@ -103,7 +103,7 @@ impl Model {
         let texture = Texture {
             id: unsafe { TextureFromFile(path, &self.directory) },
             type_: typeName.into(),
-            path: path.into()
+            path: path.into(),
         };
         self.textures_loaded.push(texture.clone());
         texture
@@ -130,7 +130,7 @@ unsafe fn TextureFromFile(path: &str, directory: &str) -> u32 {
 
     gl::BindTexture(gl::TEXTURE_2D, textureID);
     gl::TexImage2D(gl::TEXTURE_2D, 0, format as i32, img.width() as i32, img.height() as i32,
-        0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
+                   0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
     gl::GenerateMipmap(gl::TEXTURE_2D);
 
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);

@@ -1,6 +1,7 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
@@ -38,7 +39,7 @@ pub fn main_3_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -122,5 +123,4 @@ pub fn main_3_1() {
         window.swap_buffers();
         glfw.poll_events();
     }
-
 }

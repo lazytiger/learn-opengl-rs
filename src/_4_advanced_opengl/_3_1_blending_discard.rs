@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -17,7 +19,7 @@ use common::{process_events, processInput};
 use shader::Shader;
 use camera::Camera;
 
-use cgmath::{Matrix4, vec3,  Deg, perspective, Point3};
+use cgmath::{Matrix4, vec3, Deg, perspective, Point3};
 use cgmath::prelude::*;
 
 use image;
@@ -49,7 +51,7 @@ pub fn main_4_3_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -82,68 +84,61 @@ pub fn main_4_3_1() {
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
         let cubeVertices: [f32; 180] = [
-             // positions       // texture Coords
-             -0.5, -0.5, -0.5,  0.0, 0.0,
-              0.5, -0.5, -0.5,  1.0, 0.0,
-              0.5,  0.5, -0.5,  1.0, 1.0,
-              0.5,  0.5, -0.5,  1.0, 1.0,
-             -0.5,  0.5, -0.5,  0.0, 1.0,
-             -0.5, -0.5, -0.5,  0.0, 0.0,
-
-             -0.5, -0.5,  0.5,  0.0, 0.0,
-              0.5, -0.5,  0.5,  1.0, 0.0,
-              0.5,  0.5,  0.5,  1.0, 1.0,
-              0.5,  0.5,  0.5,  1.0, 1.0,
-             -0.5,  0.5,  0.5,  0.0, 1.0,
-             -0.5, -0.5,  0.5,  0.0, 0.0,
-
-             -0.5,  0.5,  0.5,  1.0, 0.0,
-             -0.5,  0.5, -0.5,  1.0, 1.0,
-             -0.5, -0.5, -0.5,  0.0, 1.0,
-             -0.5, -0.5, -0.5,  0.0, 1.0,
-             -0.5, -0.5,  0.5,  0.0, 0.0,
-             -0.5,  0.5,  0.5,  1.0, 0.0,
-
-              0.5,  0.5,  0.5,  1.0, 0.0,
-              0.5,  0.5, -0.5,  1.0, 1.0,
-              0.5, -0.5, -0.5,  0.0, 1.0,
-              0.5, -0.5, -0.5,  0.0, 1.0,
-              0.5, -0.5,  0.5,  0.0, 0.0,
-              0.5,  0.5,  0.5,  1.0, 0.0,
-
-             -0.5, -0.5, -0.5,  0.0, 1.0,
-              0.5, -0.5, -0.5,  1.0, 1.0,
-              0.5, -0.5,  0.5,  1.0, 0.0,
-              0.5, -0.5,  0.5,  1.0, 0.0,
-             -0.5, -0.5,  0.5,  0.0, 0.0,
-             -0.5, -0.5, -0.5,  0.0, 1.0,
-
-             -0.5,  0.5, -0.5,  0.0, 1.0,
-              0.5,  0.5, -0.5,  1.0, 1.0,
-              0.5,  0.5,  0.5,  1.0, 0.0,
-              0.5,  0.5,  0.5,  1.0, 0.0,
-             -0.5,  0.5,  0.5,  0.0, 0.0,
-             -0.5,  0.5, -0.5,  0.0, 1.0
+            // positions       // texture Coords
+            -0.5, -0.5, -0.5, 0.0, 0.0,
+            0.5, -0.5, -0.5, 1.0, 0.0,
+            0.5, 0.5, -0.5, 1.0, 1.0,
+            0.5, 0.5, -0.5, 1.0, 1.0,
+            -0.5, 0.5, -0.5, 0.0, 1.0,
+            -0.5, -0.5, -0.5, 0.0, 0.0,
+            -0.5, -0.5, 0.5, 0.0, 0.0,
+            0.5, -0.5, 0.5, 1.0, 0.0,
+            0.5, 0.5, 0.5, 1.0, 1.0,
+            0.5, 0.5, 0.5, 1.0, 1.0,
+            -0.5, 0.5, 0.5, 0.0, 1.0,
+            -0.5, -0.5, 0.5, 0.0, 0.0,
+            -0.5, 0.5, 0.5, 1.0, 0.0,
+            -0.5, 0.5, -0.5, 1.0, 1.0,
+            -0.5, -0.5, -0.5, 0.0, 1.0,
+            -0.5, -0.5, -0.5, 0.0, 1.0,
+            -0.5, -0.5, 0.5, 0.0, 0.0,
+            -0.5, 0.5, 0.5, 1.0, 0.0,
+            0.5, 0.5, 0.5, 1.0, 0.0,
+            0.5, 0.5, -0.5, 1.0, 1.0,
+            0.5, -0.5, -0.5, 0.0, 1.0,
+            0.5, -0.5, -0.5, 0.0, 1.0,
+            0.5, -0.5, 0.5, 0.0, 0.0,
+            0.5, 0.5, 0.5, 1.0, 0.0,
+            -0.5, -0.5, -0.5, 0.0, 1.0,
+            0.5, -0.5, -0.5, 1.0, 1.0,
+            0.5, -0.5, 0.5, 1.0, 0.0,
+            0.5, -0.5, 0.5, 1.0, 0.0,
+            -0.5, -0.5, 0.5, 0.0, 0.0,
+            -0.5, -0.5, -0.5, 0.0, 1.0,
+            -0.5, 0.5, -0.5, 0.0, 1.0,
+            0.5, 0.5, -0.5, 1.0, 1.0,
+            0.5, 0.5, 0.5, 1.0, 0.0,
+            0.5, 0.5, 0.5, 1.0, 0.0,
+            -0.5, 0.5, 0.5, 0.0, 0.0,
+            -0.5, 0.5, -0.5, 0.0, 1.0
         ];
         let planeVertices: [f32; 30] = [
             // positions       // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
-             5.0, -0.5,  5.0,  2.0, 0.0,
-            -5.0, -0.5,  5.0,  0.0, 0.0,
-            -5.0, -0.5, -5.0,  0.0, 2.0,
-
-             5.0, -0.5,  5.0,  2.0, 0.0,
-            -5.0, -0.5, -5.0,  0.0, 2.0,
-             5.0, -0.5, -5.0,  2.0, 2.0
+            5.0, -0.5, 5.0, 2.0, 0.0,
+            -5.0, -0.5, 5.0, 0.0, 0.0,
+            -5.0, -0.5, -5.0, 0.0, 2.0,
+            5.0, -0.5, 5.0, 2.0, 0.0,
+            -5.0, -0.5, -5.0, 0.0, 2.0,
+            5.0, -0.5, -5.0, 2.0, 2.0
         ];
         let transparentVertices: [f32; 30] = [
             // positions      // texture Coords (swapped y coordinates because texture is flipped upside down)
-            0.0,  0.5,  0.0,  0.0,  0.0,
-            0.0, -0.5,  0.0,  0.0,  1.0,
-            1.0, -0.5,  0.0,  1.0,  1.0,
-
-            0.0,  0.5,  0.0,  0.0,  0.0,
-            1.0, -0.5,  0.0,  1.0,  1.0,
-            1.0,  0.5,  0.0,  1.0,  0.0
+            0.0, 0.5, 0.0, 0.0, 0.0,
+            0.0, -0.5, 0.0, 0.0, 1.0,
+            1.0, -0.5, 0.0, 1.0, 1.0,
+            0.0, 0.5, 0.0, 0.0, 0.0,
+            1.0, -0.5, 0.0, 1.0, 1.0,
+            1.0, 0.5, 0.0, 1.0, 0.0
         ];
         // cube VAO
         let (mut cubeVAO, mut cubeVBO) = (0, 0);
@@ -201,10 +196,10 @@ pub fn main_4_3_1() {
         // --------------------------------
         let vegetation = [
             vec3(-1.5, 0.0, -0.48),
-            vec3( 1.5, 0.0, 0.51),
-            vec3( 0.0, 0.0, 0.7),
+            vec3(1.5, 0.0, 0.51),
+            vec3(0.0, 0.0, 0.7),
             vec3(-0.3, 0.0, -2.3),
-            vec3 (0.5, 0.0, -0.6)
+            vec3(0.5, 0.0, -0.6)
         ];
 
         // shader configuration
@@ -240,7 +235,7 @@ pub fn main_4_3_1() {
 
             // draw objects
             shader.useProgram();
-            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             let view = camera.GetViewMatrix();
             let mut model: Matrix4<f32>;
             shader.setMat4(c_str!("projection"), &projection);
@@ -310,11 +305,11 @@ pub unsafe fn loadTexture(path: &str) -> u32 {
 
     gl::BindTexture(gl::TEXTURE_2D, textureID);
     gl::TexImage2D(gl::TEXTURE_2D, 0, format as i32, img.width() as i32, img.height() as i32,
-        0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
+                   0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
     gl::GenerateMipmap(gl::TEXTURE_2D);
 
-    gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, if format == gl::RGBA { gl::CLAMP_TO_EDGE} else { gl::REPEAT } as i32); // for this tutorial: use gl::CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat );
-    gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, if format == gl::RGBA { gl::CLAMP_TO_EDGE} else { gl::REPEAT } as i32);
+    gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, if format == gl::RGBA { gl::CLAMP_TO_EDGE } else { gl::REPEAT } as i32); // for this tutorial: use gl::CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat );
+    gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, if format == gl::RGBA { gl::CLAMP_TO_EDGE } else { gl::REPEAT } as i32);
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR_MIPMAP_LINEAR as i32);
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
 

@@ -4,6 +4,7 @@
 use std::ffi::CStr;
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
@@ -39,7 +40,7 @@ pub fn main_4_9_3() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -72,7 +73,7 @@ pub fn main_4_9_3() {
         let normalShader = Shader::with_geometry_shader(
             "src/_4_advanced_opengl/shaders/9.3.normal_visualization.vs",
             "src/_4_advanced_opengl/shaders/9.3.normal_visualization.fs",
-            "src/_4_advanced_opengl/shaders/9.3.normal_visualization.gs"
+            "src/_4_advanced_opengl/shaders/9.3.normal_visualization.gs",
         );
 
         // load models

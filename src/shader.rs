@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+
 use std::ffi::{CString, CStr};
 use std::fs::File;
 use std::io::Read;
@@ -112,7 +113,6 @@ impl Shader {
                          type_,
                          str::from_utf8(&infoLog).unwrap());
             }
-
         } else {
             gl::GetProgramiv(shader, gl::LINK_STATUS, &mut success);
             if success != gl::TRUE as GLint {
@@ -123,7 +123,6 @@ impl Shader {
                          str::from_utf8(&infoLog).unwrap());
             }
         }
-
     }
 
     /// Only used in 4.9 Geometry shaders - ignore until then (shader.h in original C++)

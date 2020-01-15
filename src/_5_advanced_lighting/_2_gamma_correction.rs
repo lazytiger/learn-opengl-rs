@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -53,7 +55,7 @@ pub fn main_5_2() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -89,13 +91,12 @@ pub fn main_5_2() {
         // ------------------------------------------------------------------
         let planeVertices: [f32; 48] = [
             // positions         // normals      // texcoords
-             10.0, -0.5,  10.0,  0.0, 1.0, 0.0,  10.0,  0.0,
-            -10.0, -0.5,  10.0,  0.0, 1.0, 0.0,   0.0,  0.0,
-            -10.0, -0.5, -10.0,  0.0, 1.0, 0.0,   0.0, 10.0,
-
-             10.0, -0.5,  10.0,  0.0, 1.0, 0.0,  10.0,  0.0,
-            -10.0, -0.5, -10.0,  0.0, 1.0, 0.0,   0.0, 10.0,
-             10.0, -0.5, -10.0,  0.0, 1.0, 0.0,  10.0, 10.0
+            10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 10.0, 0.0,
+            -10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+            -10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 0.0, 10.0,
+            10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 10.0, 0.0,
+            -10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 0.0, 10.0,
+            10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 10.0, 10.0
         ];
         // plane VAO
         let (mut planeVAO, mut planeVBO) = (0, 0);
@@ -134,8 +135,8 @@ pub fn main_5_2() {
     let lightPositions: [Vector3<f32>; 4] = [
         vec3(-3.0, 0.0, 0.0),
         vec3(-1.0, 0.0, 0.0),
-        vec3 (1.0, 0.0, 0.0),
-        vec3 (3.0, 0.0, 0.0)
+        vec3(1.0, 0.0, 0.0),
+        vec3(3.0, 0.0, 0.0)
     ];
     let lightColors: [Vector3<f32>; 4] = [
         vec3(0.25, 0.25, 0.25),
@@ -169,7 +170,7 @@ pub fn main_5_2() {
 
             // draw objects
             shader.useProgram();
-            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             let view = camera.GetViewMatrix();
             shader.setMat4(c_str!("projection"), &projection);
             shader.setMat4(c_str!("view"), &view);
@@ -254,7 +255,7 @@ pub unsafe fn loadTexture(path: &str, gammaCorrection: bool) -> u32 {
 
     gl::BindTexture(gl::TEXTURE_2D, textureID);
     gl::TexImage2D(gl::TEXTURE_2D, 0, internalFormat as i32, img.width() as i32, img.height() as i32,
-        0, dataFormat, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
+                   0, dataFormat, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
     gl::GenerateMipmap(gl::TEXTURE_2D);
 
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);

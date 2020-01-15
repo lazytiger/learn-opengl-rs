@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 #![allow(dead_code)]
+
 /// Common code that the original tutorials repeat over and over and over and over
 
 use std::os::raw::c_void;
@@ -7,7 +8,9 @@ use std::path::Path;
 use std::sync::mpsc::Receiver;
 
 use gl;
+
 extern crate glfw;
+
 use self::glfw::{Key, Action};
 
 use image;
@@ -21,10 +24,10 @@ use camera::Camera_Movement::*;
 /// Event processing function as introduced in 1.7.4 (Camera Class) and used in
 /// most later tutorials
 pub fn process_events(events: &Receiver<(f64, glfw::WindowEvent)>,
-                  firstMouse: &mut bool,
-                  lastX: &mut f32,
-                  lastY: &mut f32,
-                  camera: &mut Camera) {
+                      firstMouse: &mut bool,
+                      lastX: &mut f32,
+                      lastY: &mut f32,
+                      camera: &mut Camera) {
     for (_, event) in glfw::flush_messages(events) {
         match event {
             glfw::WindowEvent::FramebufferSize(width, height) => {
@@ -98,7 +101,7 @@ pub unsafe fn loadTexture(path: &str) -> u32 {
 
     gl::BindTexture(gl::TEXTURE_2D, textureID);
     gl::TexImage2D(gl::TEXTURE_2D, 0, format as i32, img.width() as i32, img.height() as i32,
-        0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
+                   0, format, gl::UNSIGNED_BYTE, &data[0] as *const u8 as *const c_void);
     gl::GenerateMipmap(gl::TEXTURE_2D);
 
     gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32);

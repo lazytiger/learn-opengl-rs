@@ -6,12 +6,14 @@ use std::mem;
 use std::os::raw::c_void;
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
+
 use self::gl::types::*;
 
-use cgmath::{Point3};
+use cgmath::Point3;
 
 use common::{process_events, processInput};
 use shader::Shader;
@@ -41,7 +43,7 @@ pub fn main_4_9_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -70,15 +72,15 @@ pub fn main_4_9_1() {
         let shader = Shader::with_geometry_shader(
             "src/_4_advanced_opengl/shaders/9.1.geometry_shader.vs",
             "src/_4_advanced_opengl/shaders/9.1.geometry_shader.fs",
-            "src/_4_advanced_opengl/shaders/9.1.geometry_shader.gs"
+            "src/_4_advanced_opengl/shaders/9.1.geometry_shader.gs",
         );
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
         let points: [f32; 20] = [
-            -0.5,  0.5, 1.0, 0.0, 0.0, // top-left
-             0.5,  0.5, 0.0, 1.0, 0.0, // top-right
-             0.5, -0.5, 0.0, 0.0, 1.0, // bottom-right
+            -0.5, 0.5, 1.0, 0.0, 0.0, // top-left
+            0.5, 0.5, 0.0, 1.0, 0.0, // top-right
+            0.5, -0.5, 0.0, 0.0, 1.0, // bottom-right
             -0.5, -0.5, 1.0, 1.0, 0.0  // bottom-left
         ];
         // cube VAO

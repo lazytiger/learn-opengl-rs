@@ -6,14 +6,17 @@ use std::mem;
 use std::os::raw::c_void;
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
+
 use self::gl::types::*;
 
-use cgmath::{Vector2};
+use cgmath::Vector2;
 
 extern crate num;
+
 use self::num::range_step;
 
 use shader::Shader;
@@ -29,7 +32,7 @@ pub fn main_4_10_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -64,7 +67,7 @@ pub fn main_4_10_1() {
                 translations.push(
                     Vector2 {
                         x: x as i32 as f32 / 10.0 + offset,
-                        y: y as i32 as f32 / 10.0 + offset
+                        y: y as i32 as f32 / 10.0 + offset,
                     }
                 )
             }
@@ -75,7 +78,7 @@ pub fn main_4_10_1() {
         gl::BindBuffer(gl::ARRAY_BUFFER, instanceVBO);
         gl::BufferData(
             gl::ARRAY_BUFFER,
-            mem::size_of::<Vector2<f32>>() as isize * 100 ,
+            mem::size_of::<Vector2<f32>>() as isize * 100,
             &translations[0] as *const Vector2<f32> as *const c_void,
             gl::STATIC_DRAW);
         gl::BindBuffer(gl::ARRAY_BUFFER, 0);
@@ -84,13 +87,12 @@ pub fn main_4_10_1() {
         // ------------------------------------------------------------------
         let quadVertices: [f32; 30] = [
             // positions   // colors
-            -0.05,  0.05,  1.0, 0.0, 0.0,
-             0.05, -0.05,  0.0, 1.0, 0.0,
-            -0.05, -0.05,  0.0, 0.0, 1.0,
-
-            -0.05,  0.05,  1.0, 0.0, 0.0,
-             0.05, -0.05,  0.0, 1.0, 0.0,
-             0.05,  0.05,  0.0, 1.0, 1.0
+            -0.05, 0.05, 1.0, 0.0, 0.0,
+            0.05, -0.05, 0.0, 1.0, 0.0,
+            -0.05, -0.05, 0.0, 0.0, 1.0,
+            -0.05, 0.05, 1.0, 0.0, 0.0,
+            0.05, -0.05, 0.0, 1.0, 0.0,
+            0.05, 0.05, 0.0, 1.0, 1.0
         ];
         let (mut quadVAO, mut quadVBO) = (0, 0);
         gl::GenVertexArrays(1, &mut quadVAO);
@@ -138,7 +140,7 @@ pub fn main_4_10_1() {
         glfw.poll_events();
     }
 
-        // optional: de-allocate all resources once they've outlived their purpose:
+    // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
     unsafe {
         gl::DeleteVertexArrays(1, &quadVAO);

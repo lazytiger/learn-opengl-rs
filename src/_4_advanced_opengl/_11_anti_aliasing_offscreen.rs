@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -16,7 +18,7 @@ use common::{process_events, processInput};
 use shader::Shader;
 use camera::Camera;
 
-use cgmath::{Matrix4,  Deg, perspective, Point3};
+use cgmath::{Matrix4, Deg, perspective, Point3};
 use cgmath::prelude::*;
 
 // settings
@@ -43,7 +45,7 @@ pub fn main_4_11() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -82,58 +84,52 @@ pub fn main_4_11() {
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
         let cubeVertices: [f32; 108] = [
-             // positions
-             -0.5, -0.5, -0.5,
-              0.5, -0.5, -0.5,
-              0.5,  0.5, -0.5,
-              0.5,  0.5, -0.5,
-             -0.5,  0.5, -0.5,
-             -0.5, -0.5, -0.5,
-
-             -0.5, -0.5,  0.5,
-              0.5, -0.5,  0.5,
-              0.5,  0.5,  0.5,
-              0.5,  0.5,  0.5,
-             -0.5,  0.5,  0.5,
-             -0.5, -0.5,  0.5,
-
-             -0.5,  0.5,  0.5,
-             -0.5,  0.5, -0.5,
-             -0.5, -0.5, -0.5,
-             -0.5, -0.5, -0.5,
-             -0.5, -0.5,  0.5,
-             -0.5,  0.5,  0.5,
-
-              0.5,  0.5,  0.5,
-              0.5,  0.5, -0.5,
-              0.5, -0.5, -0.5,
-              0.5, -0.5, -0.5,
-              0.5, -0.5,  0.5,
-              0.5,  0.5,  0.5,
-
-             -0.5, -0.5, -0.5,
-              0.5, -0.5, -0.5,
-              0.5, -0.5,  0.5,
-              0.5, -0.5,  0.5,
-             -0.5, -0.5,  0.5,
-             -0.5, -0.5, -0.5,
-
-             -0.5,  0.5, -0.5,
-              0.5,  0.5, -0.5,
-              0.5,  0.5,  0.5,
-              0.5,  0.5,  0.5,
-             -0.5,  0.5,  0.5,
-             -0.5,  0.5, -0.5,
+            // positions
+            -0.5, -0.5, -0.5,
+            0.5, -0.5, -0.5,
+            0.5, 0.5, -0.5,
+            0.5, 0.5, -0.5,
+            -0.5, 0.5, -0.5,
+            -0.5, -0.5, -0.5,
+            -0.5, -0.5, 0.5,
+            0.5, -0.5, 0.5,
+            0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5,
+            -0.5, 0.5, 0.5,
+            -0.5, -0.5, 0.5,
+            -0.5, 0.5, 0.5,
+            -0.5, 0.5, -0.5,
+            -0.5, -0.5, -0.5,
+            -0.5, -0.5, -0.5,
+            -0.5, -0.5, 0.5,
+            -0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5,
+            0.5, 0.5, -0.5,
+            0.5, -0.5, -0.5,
+            0.5, -0.5, -0.5,
+            0.5, -0.5, 0.5,
+            0.5, 0.5, 0.5,
+            -0.5, -0.5, -0.5,
+            0.5, -0.5, -0.5,
+            0.5, -0.5, 0.5,
+            0.5, -0.5, 0.5,
+            -0.5, -0.5, 0.5,
+            -0.5, -0.5, -0.5,
+            -0.5, 0.5, -0.5,
+            0.5, 0.5, -0.5,
+            0.5, 0.5, 0.5,
+            0.5, 0.5, 0.5,
+            -0.5, 0.5, 0.5,
+            -0.5, 0.5, -0.5,
         ];
         let quadVertices: [f32; 24] = [ // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
             // positions // texCoords
-            -1.0,  1.0,  0.0, 1.0,
-            -1.0, -1.0,  0.0, 0.0,
-             1.0, -1.0,  1.0, 0.0,
-
-            -1.0,  1.0,  0.0, 1.0,
-             1.0, -1.0,  1.0, 0.0,
-             1.0,  1.0,  1.0, 1.0
+            -1.0, 1.0, 0.0, 1.0,
+            -1.0, -1.0, 0.0, 0.0,
+            1.0, -1.0, 1.0, 0.0,
+            -1.0, 1.0, 0.0, 1.0,
+            1.0, -1.0, 1.0, 0.0,
+            1.0, 1.0, 1.0, 1.0
         ];
         // setup cube VAO
         let (mut cubeVAO, mut cubeVBO) = (0, 0);
@@ -200,7 +196,7 @@ pub fn main_4_11() {
         gl::TexImage2D(gl::TEXTURE_2D, 0, gl::RGB as i32, scr_width, scr_height, 0, gl::RGB, gl::UNSIGNED_BYTE, ptr::null());
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as i32);
         gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
-        gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0, gl::TEXTURE_2D, screenTexture, 0);	// we only need a color buffer
+        gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0, gl::TEXTURE_2D, screenTexture, 0);    // we only need a color buffer
 
         if gl::CheckFramebufferStatus(gl::FRAMEBUFFER) != gl::FRAMEBUFFER_COMPLETE {
             println!("ERROR::FRAMEBUFFER:: Intermediate framebuffer is not complete!");
@@ -243,7 +239,7 @@ pub fn main_4_11() {
 
             // set transformation matrices
             shader.useProgram();
-            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             shader.setMat4(c_str!("projection"), &projection);
             shader.setMat4(c_str!("view"), &camera.GetViewMatrix());
             shader.setMat4(c_str!("model"), &Matrix4::identity());
@@ -266,7 +262,7 @@ pub fn main_4_11() {
             screenShader.useProgram();
             gl::BindVertexArray(quadVAO);
             gl::ActiveTexture(gl::TEXTURE0);
-            gl::BindTexture(gl::TEXTURE_2D, screenTexture);	// use the now resolved color attachment as the quad's texture
+            gl::BindTexture(gl::TEXTURE_2D, screenTexture);    // use the now resolved color attachment as the quad's texture
             gl::DrawArrays(gl::TRIANGLES, 0, 6);
         }
 

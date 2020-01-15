@@ -1,8 +1,10 @@
 #![allow(non_upper_case_globals)]
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::sync::mpsc::Receiver;
@@ -18,7 +20,7 @@ use image;
 use image::GenericImage;
 use image::GenericImageView;
 
-use cgmath::{Matrix4, vec3,  Deg, perspective};
+use cgmath::{Matrix4, vec3, Deg, perspective};
 use cgmath::prelude::*;
 
 // settings
@@ -33,7 +35,7 @@ pub fn main_1_6_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -60,10 +62,10 @@ pub fn main_1_6_1() {
         // HINT: type annotation is crucial since default for float literals is f64
         let vertices: [f32; 20] = [
             // positions       // texture coords
-             0.5,  0.5, 0.0,   1.0, 1.0, // top right
-             0.5, -0.5, 0.0,   1.0, 0.0, // bottom right
-            -0.5, -0.5, 0.0,   0.0, 0.0, // bottom left
-            -0.5,  0.5, 0.0,   0.0, 1.0  // top left
+            0.5, 0.5, 0.0, 1.0, 1.0, // top right
+            0.5, -0.5, 0.0, 1.0, 0.0, // bottom right
+            -0.5, -0.5, 0.0, 0.0, 0.0, // bottom left
+            -0.5, 0.5, 0.0, 0.0, 1.0  // top left
         ];
         let indices = [
             0, 1, 3,  // first Triangle

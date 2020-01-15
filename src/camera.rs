@@ -18,6 +18,7 @@ pub enum Camera_Movement {
     LEFT,
     RIGHT,
 }
+
 use self::Camera_Movement::*;
 
 // Default camera values

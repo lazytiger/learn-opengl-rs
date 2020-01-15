@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -17,7 +19,7 @@ use shader::Shader;
 use camera::Camera;
 use camera::Camera_Movement::*;
 
-use cgmath::{Matrix4, vec3,  Deg, perspective, Point3};
+use cgmath::{Matrix4, vec3, Deg, perspective, Point3};
 use cgmath::prelude::*;
 
 // settings
@@ -47,7 +49,7 @@ pub fn main_5_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -83,13 +85,12 @@ pub fn main_5_1() {
         // ------------------------------------------------------------------
         let planeVertices: [f32; 48] = [
             // positions         // normals      // texcoords
-             10.0, -0.5,  10.0,  0.0, 1.0, 0.0,  10.0,  0.0,
-            -10.0, -0.5,  10.0,  0.0, 1.0, 0.0,   0.0,  0.0,
-            -10.0, -0.5, -10.0,  0.0, 1.0, 0.0,   0.0, 10.0,
-
-             10.0, -0.5,  10.0,  0.0, 1.0, 0.0,  10.0,  0.0,
-            -10.0, -0.5, -10.0,  0.0, 1.0, 0.0,   0.0, 10.0,
-             10.0, -0.5, -10.0,  0.0, 1.0, 0.0,  10.0, 10.0
+            10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 10.0, 0.0,
+            -10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+            -10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 0.0, 10.0,
+            10.0, -0.5, 10.0, 0.0, 1.0, 0.0, 10.0, 0.0,
+            -10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 0.0, 10.0,
+            10.0, -0.5, -10.0, 0.0, 1.0, 0.0, 10.0, 10.0
         ];
         // plane VAO
         let (mut planeVAO, mut planeVBO) = (0, 0);
@@ -151,7 +152,7 @@ pub fn main_5_1() {
 
             // draw objects
             shader.useProgram();
-            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             let view = camera.GetViewMatrix();
             shader.setMat4(c_str!("projection"), &projection);
             shader.setMat4(c_str!("view"), &view);

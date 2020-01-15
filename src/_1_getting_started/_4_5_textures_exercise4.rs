@@ -1,8 +1,10 @@
 #![allow(non_upper_case_globals)]
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::sync::mpsc::Receiver;
@@ -31,7 +33,7 @@ pub fn main_1_4_5() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -58,10 +60,10 @@ pub fn main_1_4_5() {
         // HINT: type annotation is crucial since default for float literals is f64
         let vertices: [f32; 32] = [
             // positions       // colors        // texture coords
-             0.5,  0.5, 0.0,   1.0, 0.0, 0.0,   1.0, 1.0, // top right
-             0.5, -0.5, 0.0,   0.0, 1.0, 0.0,   1.0, 0.0, // bottom right
-            -0.5, -0.5, 0.0,   0.0, 0.0, 1.0,   0.0, 0.0, // bottom left
-            -0.5,  0.5, 0.0,   1.0, 1.0, 0.0,   0.0, 1.0  // top left
+            0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, // top right
+            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, // bottom right
+            -0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, // bottom left
+            -0.5, 0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0  // top left
         ];
         let indices = [
             0, 1, 3,  // first Triangle
@@ -201,7 +203,7 @@ pub fn main_1_4_5() {
     }
 }
 
-fn process_events(window: &mut glfw::Window, events: &Receiver<(f64, glfw::WindowEvent)>, mixValue:&mut f32) {
+fn process_events(window: &mut glfw::Window, events: &Receiver<(f64, glfw::WindowEvent)>, mixValue: &mut f32) {
     for (_, event) in glfw::flush_messages(events) {
         match event {
             glfw::WindowEvent::FramebufferSize(width, height) => {
@@ -210,14 +212,14 @@ fn process_events(window: &mut glfw::Window, events: &Receiver<(f64, glfw::Windo
                 unsafe { gl::Viewport(0, 0, width, height) }
             }
             glfw::WindowEvent::Key(Key::Escape, _, Action::Press, _) => window.set_should_close(true),
-            glfw::WindowEvent::Key(Key::Up, _, Action::Press,_) => {
-               *mixValue = *mixValue + 0.01;
+            glfw::WindowEvent::Key(Key::Up, _, Action::Press, _) => {
+                *mixValue = *mixValue + 0.01;
                 if *mixValue >= 1.0 {
                     *mixValue = 1.0
                 }
-            },
+            }
             glfw::WindowEvent::Key(Key::Down, _, Action::Press, _) => {
-               *mixValue = *mixValue - 0.01;
+                *mixValue = *mixValue - 0.01;
                 if *mixValue <= 0.0 {
                     *mixValue = 0.0;
                 }

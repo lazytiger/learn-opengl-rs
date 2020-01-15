@@ -2,9 +2,11 @@
 #![allow(non_snake_case)]
 
 extern crate glfw;
+
 use self::glfw::Context;
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::ptr;
@@ -43,7 +45,7 @@ pub fn main_5_4() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -117,8 +119,8 @@ pub fn main_5_4() {
             gl::ClearColor(0.1, 0.1, 0.1, 1.0);
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 
-             // configure view/projection matrices
-            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32 , 0.1, 100.0);
+            // configure view/projection matrices
+            let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             let view = camera.GetViewMatrix();
             shader.useProgram();
             shader.setMat4(c_str!("projection"), &projection);
@@ -153,10 +155,10 @@ pub fn main_5_4() {
 unsafe fn renderQuad(quadVAO: &mut u32, quadVBO: &mut u32) {
     if *quadVAO == 0 {
         // positions
-        let pos1: Vector3<f32> = vec3(-1.0,  1.0, 0.0);
+        let pos1: Vector3<f32> = vec3(-1.0, 1.0, 0.0);
         let pos2: Vector3<f32> = vec3(-1.0, -1.0, 0.0);
-        let pos3: Vector3<f32> = vec3( 1.0, -1.0, 0.0);
-        let pos4: Vector3<f32> = vec3( 1.0,  1.0, 0.0);
+        let pos3: Vector3<f32> = vec3(1.0, -1.0, 0.0);
+        let pos4: Vector3<f32> = vec3(1.0, 1.0, 0.0);
         // texture coordinates
         let uv1: Vector2<f32> = vec2(0.0, 1.0);
         let uv2: Vector2<f32> = vec2(0.0, 0.0);
@@ -168,7 +170,8 @@ unsafe fn renderQuad(quadVAO: &mut u32, quadVBO: &mut u32) {
         // calculate tangent/bitangent vectors of both triangles
         let mut tangent1: Vector3<f32> = vec3(0.0, 0.0, 0.0);
         let mut bitangent1: Vector3<f32> = vec3(0.0, 0.0, 0.0);
-        let mut tangent2: Vector3<f32> = vec3(0.0, 0.0, 0.0);;
+        let mut tangent2: Vector3<f32> = vec3(0.0, 0.0, 0.0);
+        ;
         let mut bitangent2: Vector3<f32> = vec3(0.0, 0.0, 0.0);
         // triangle 1
         // ----------
@@ -213,7 +216,6 @@ unsafe fn renderQuad(quadVAO: &mut u32, quadVBO: &mut u32) {
             pos1.x, pos1.y, pos1.z, nm.x, nm.y, nm.z, uv1.x, uv1.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
             pos2.x, pos2.y, pos2.z, nm.x, nm.y, nm.z, uv2.x, uv2.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
             pos3.x, pos3.y, pos3.z, nm.x, nm.y, nm.z, uv3.x, uv3.y, tangent1.x, tangent1.y, tangent1.z, bitangent1.x, bitangent1.y, bitangent1.z,
-
             pos1.x, pos1.y, pos1.z, nm.x, nm.y, nm.z, uv1.x, uv1.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z,
             pos3.x, pos3.y, pos3.z, nm.x, nm.y, nm.z, uv3.x, uv3.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z,
             pos4.x, pos4.y, pos4.z, nm.x, nm.y, nm.z, uv4.x, uv4.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z

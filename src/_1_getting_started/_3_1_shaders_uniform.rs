@@ -1,8 +1,10 @@
 #![allow(non_upper_case_globals)]
 extern crate glfw;
+
 use self::glfw::{Context, Key, Action};
 
 extern crate gl;
+
 use self::gl::types::*;
 
 use std::sync::mpsc::Receiver;
@@ -41,7 +43,7 @@ pub fn main_1_3_1() {
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
     #[cfg(target_os = "macos")]
-    glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
+        glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
     // glfw window creation
     // --------------------
@@ -106,8 +108,8 @@ pub fn main_1_3_1() {
         // HINT: type annotation is crucial since default for float literals is f64
         let vertices: [f32; 9] = [
             -0.5, -0.5, 0.0, // left
-             0.5, -0.5, 0.0, // right
-             0.0,  0.5, 0.0  // top
+            0.5, -0.5, 0.0, // right
+            0.0, 0.5, 0.0  // top
         ];
         let (mut VBO, mut VAO) = (0, 0);
         gl::GenVertexArrays(1, &mut VAO);
