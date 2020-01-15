@@ -14,6 +14,10 @@ mod _3_1_2_shadow_mapping_base;
 
 pub use self::_3_1_2_shadow_mapping_base::*;
 
+mod _3_1_3_shadow_mapping;
+
+pub use self::_3_1_3_shadow_mapping::*;
+
 mod _4_normal_mapping;
 
 pub use self::_4_normal_mapping::*;
