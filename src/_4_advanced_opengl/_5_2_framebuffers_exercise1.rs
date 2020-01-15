@@ -259,14 +259,17 @@ pub fn main_4_5_2() {
             gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 
             shader.useProgram();
+
             let mut model: Matrix4<f32>;
             camera.Yaw += 180.0;
             camera.Pitch += 180.0;
             camera.ProcessMouseMovement(0.0, 0.0, false);
             let view = camera.GetViewMatrix();
+
             camera.Yaw -= 180.0;
             camera.Pitch -= 180.0;
             camera.ProcessMouseMovement(0.0, 0.0, false);
+
             let projection: Matrix4<f32> = perspective(Deg(camera.Zoom), SCR_WIDTH as f32 / SCR_HEIGHT as f32, 0.1, 100.0);
             shader.setMat4(c_str!("view"), &view);
             shader.setMat4(c_str!("projection"), &projection);
