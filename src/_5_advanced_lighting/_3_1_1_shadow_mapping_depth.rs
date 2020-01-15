@@ -189,6 +189,14 @@ pub fn main_5_3_1_1() {
             gl::BindTexture(gl::TEXTURE_2D, woodTexture);
             renderScene(&simpleDepthShader, planeVAO, cubeVAO);
             gl::BindFramebuffer(gl::FRAMEBUFFER, 0);
+
+            gl::Viewport(0, 0, SCR_WIDTH as i32, SCR_HEIGHT as i32);
+            gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+            debugDepthQuad.useProgram();
+            debugDepthQuad.setFloat(c_str!("near_plane"), near_plane);
+            debugDepthQuad.setFloat(c_str!("far_plane"), far_plane);
+            gl::ActiveTexture(gl::TEXTURE0);
+            gl::BindTexture(gl::TEXTURE_2D, depthMap);
             renderQuad(quadVAO);
         }
 
@@ -203,6 +211,10 @@ pub fn main_5_3_1_1() {
     unsafe {
         gl::DeleteVertexArrays(1, &planeVAO);
         gl::DeleteBuffers(1, &planeVBO);
+        gl::DeleteVertexArrays(1, &cubeVAO);
+        gl::DeleteBuffers(1, &cubeVBO);
+        gl::DeleteVertexArrays(1, &quadVAO);
+        gl::DeleteBuffers(1, &quadVBO);
     }
 }
 
