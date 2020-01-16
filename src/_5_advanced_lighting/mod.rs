@@ -22,6 +22,10 @@ mod _3_2_1_point_shadows;
 
 pub use self::_3_2_1_point_shadows::*;
 
+mod _3_2_2_point_shadows_soft;
+
+pub use self::_3_2_2_point_shadows_soft::*;
+
 mod _4_normal_mapping;
 
 pub use self::_4_normal_mapping::*;
