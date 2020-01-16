@@ -18,6 +18,10 @@ mod _3_1_3_shadow_mapping;
 
 pub use self::_3_1_3_shadow_mapping::*;
 
+mod _3_2_1_point_shadows;
+
+pub use self::_3_2_1_point_shadows::*;
+
 mod _4_normal_mapping;
 
 pub use self::_4_normal_mapping::*;
