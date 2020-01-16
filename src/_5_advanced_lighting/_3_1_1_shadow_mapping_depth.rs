@@ -245,21 +245,21 @@ unsafe fn renderScene(shader: &Shader, planeVAO: u32, cubeVAO: u32) {
     gl::DrawArrays(gl::TRIANGLES, 0, 6);
 
     model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(0.0, 1.5, 0.0)) * model;
-    model = Matrix4::from_scale(0.5) * model;
+    model = model * Matrix4::from_translation(vec3(0.0, 1.5, 0.0));
+    model = model * Matrix4::from_scale(0.5);
     shader.setMat4(c_str!("model"), &model);
     renderCube(cubeVAO);
 
     model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(2.0, 0.0, 1.0)) * model;
-    model = Matrix4::from_scale(0.5) * model;
+    model = model * Matrix4::from_translation(vec3(2.0, 0.0, 1.0));
+    model = model * Matrix4::from_scale(0.5);
     shader.setMat4(c_str!("model"), &model);
     renderCube(cubeVAO);
 
     model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(-1.0, 0.0, 2.0)) * model;
-    model = Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(60.0)) * model;
-    model = Matrix4::from_scale(0.25) * model;
+    model = model * Matrix4::from_translation(vec3(-1.0, 0.0, 2.0));
+    model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(60.0));
+    model = model * Matrix4::from_scale(0.25);
     shader.setMat4(c_str!("model"), &model);
     renderCube(cubeVAO);
 }

@@ -302,7 +302,7 @@ pub fn main_4_5_2() {
             gl::BindVertexArray(cubeVAO);
             gl::ActiveTexture(gl::TEXTURE0);
             gl::BindTexture(gl::TEXTURE_2D, cubeTexture);
-            model = Matrix4::from_translation(vec3(-1.0, 0.0, -1.0)) * model;
+            model = Matrix4::from_translation(vec3(-1.0, 0.0, -1.0));
             shader.setMat4(c_str!("model"), &model);
             gl::DrawArrays(gl::TRIANGLES, 0, 36);
 
