@@ -38,6 +38,14 @@ mod _5_1_parallax_mapping;
 
 pub use self::_5_1_parallax_mapping::*;
 
+mod _5_2_steep_parallax_mapping;
+
+pub use self::_5_2_steep_parallax_mapping::*;
+
+mod _5_3_parallax_occlusion_mapping;
+
+pub use self::_5_3_parallax_occlusion_mapping::*;
+
 mod _6_hdr;
 
 pub use self::_6_hdr::*;
