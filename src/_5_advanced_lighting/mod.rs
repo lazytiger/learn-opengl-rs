@@ -34,6 +34,10 @@ mod _4_normal_mapping;
 
 pub use self::_4_normal_mapping::*;
 
+mod _5_1_parallax_mapping;
+
+pub use self::_5_1_parallax_mapping::*;
+
 mod _6_hdr;
 
 pub use self::_6_hdr::*;
