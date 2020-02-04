@@ -108,7 +108,7 @@ pub fn main_5_7() {
         gl::GenFramebuffers(1, &mut hdrFBO);
         gl::BindFramebuffer(gl::FRAMEBUFFER, hdrFBO);
         // create floating point color buffer
-        let mut colorBuffers = [0;2];
+        let mut colorBuffers = [0; 2];
         gl::GenTextures(2, &mut colorBuffers[0]);
         for i in 0..2 {
             gl::BindTexture(gl::TEXTURE_2D, colorBuffers[i]);
@@ -118,7 +118,7 @@ pub fn main_5_7() {
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE as i32);
-            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0+i as u32, gl::TEXTURE_2D, colorBuffers[i], 0);
+            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0 + i as u32, gl::TEXTURE_2D, colorBuffers[i], 0);
         }
 
         // create depth buffer (renderbuffer)
@@ -138,8 +138,8 @@ pub fn main_5_7() {
         gl::BindFramebuffer(gl::FRAMEBUFFER, 0);
 
         // ping-pong-framebuffer for blurring
-        let mut pingpongFBO = [0;2];
-        let mut pingpongColorBuffers = [0;2];
+        let mut pingpongFBO = [0; 2];
+        let mut pingpongColorBuffers = [0; 2];
         gl::GenFramebuffers(2, &mut pingpongFBO[0]);
         gl::GenTextures(2, &mut pingpongColorBuffers[0]);
         for i in 0..2 {
@@ -151,7 +151,7 @@ pub fn main_5_7() {
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE as i32);
-            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0+i as u32, gl::TEXTURE_2D, pingpongColorBuffers[i], 0);
+            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0 + i as u32, gl::TEXTURE_2D, pingpongColorBuffers[i], 0);
             if gl::CheckFramebufferStatus(gl::FRAMEBUFFER) != gl::FRAMEBUFFER_COMPLETE {
                 println!("Framebuffer not complete!");
             }
@@ -292,7 +292,7 @@ pub fn main_5_7() {
                 shaderBlur.setInt(c_str!("horizontal"), horizontal as i32);
                 let mut texture = colorBuffers[1];
                 if !first_iteration {
-                    texture =  pingpongColorBuffers[!horizontal as usize];
+                    texture = pingpongColorBuffers[!horizontal as usize];
                 }
                 renderQuad(&mut quadVAO, &mut quadVBO);
                 horizontal = !horizontal;
