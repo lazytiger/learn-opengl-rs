@@ -25,7 +25,7 @@ use shader::Shader;
 use camera::Camera;
 use camera::Camera_Movement::*;
 
-use cgmath::{Matrix4, vec3, Vector3, Deg, perspective, Point3, Rad};
+use cgmath::{Matrix4, vec3, Vector3, Deg, perspective, Point3};
 use cgmath::prelude::*;
 
 // settings
@@ -143,7 +143,7 @@ pub fn main_5_7() {
         gl::GenFramebuffers(2, &mut pingpongFBO[0]);
         gl::GenTextures(2, &mut pingpongColorBuffers[0]);
         for i in 0..2 {
-            gl::BindFramebuffer(gl::FRAMEBUFFER, pingpongFBO[0]);
+            gl::BindFramebuffer(gl::FRAMEBUFFER, pingpongFBO[i]);
             gl::BindTexture(gl::TEXTURE_2D, pingpongColorBuffers[i]);
             gl::TexImage2D(gl::TEXTURE_2D, 0, gl::RGB16F as i32,
                            SCR_WIDTH as i32, SCR_HEIGHT as i32, 0, gl::RGB, gl::FLOAT, ptr::null());
@@ -151,7 +151,7 @@ pub fn main_5_7() {
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::CLAMP_TO_EDGE as i32);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::CLAMP_TO_EDGE as i32);
-            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0 + i as u32, gl::TEXTURE_2D, pingpongColorBuffers[i], 0);
+            gl::FramebufferTexture2D(gl::FRAMEBUFFER, gl::COLOR_ATTACHMENT0, gl::TEXTURE_2D, pingpongColorBuffers[i], 0);
             if gl::CheckFramebufferStatus(gl::FRAMEBUFFER) != gl::FRAMEBUFFER_COMPLETE {
                 println!("Framebuffer not complete!");
             }
@@ -248,18 +248,18 @@ pub fn main_5_7() {
             renderCube(&mut cubeVAO, &mut cubeVBO);
 
             model = Matrix4::from_translation(vec3(-1.0, -1.0, 2.0));
-            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Rad(60.0));
+            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(60.0));
             shader.setMat4(c_str!("model"), &model);
             renderCube(&mut cubeVAO, &mut cubeVBO);
 
             model = Matrix4::from_translation(vec3(0.0, 2.7, 4.0));
-            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Rad(23.0));
+            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(23.0));
             model = model * Matrix4::from_scale(1.25);
             shader.setMat4(c_str!("model"), &model);
             renderCube(&mut cubeVAO, &mut cubeVBO);
 
             model = Matrix4::from_translation(vec3(-2.0, 1.0, -3.0));
-            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Rad(124.0));
+            model = model * Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(124.0));
             shader.setMat4(c_str!("model"), &model);
             renderCube(&mut cubeVAO, &mut cubeVBO);
 
@@ -289,11 +289,12 @@ pub fn main_5_7() {
             shaderBlur.useProgram();
             for i in 0..amount {
                 gl::BindFramebuffer(gl::FRAMEBUFFER, pingpongFBO[horizontal as usize]);
-                shaderBlur.setInt(c_str!("horizontal"), horizontal as i32);
+                shaderBlur.setBool(c_str!("horizontal"), horizontal);
                 let mut texture = colorBuffers[1];
                 if !first_iteration {
                     texture = pingpongColorBuffers[!horizontal as usize];
                 }
+                gl::BindTexture(gl::TEXTURE_2D, texture);
                 renderQuad(&mut quadVAO, &mut quadVBO);
                 horizontal = !horizontal;
                 if first_iteration {
