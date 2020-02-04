@@ -49,3 +49,7 @@ pub use self::_5_3_parallax_occlusion_mapping::*;
 mod _6_hdr;
 
 pub use self::_6_hdr::*;
+
+mod _7_bloom;
+
+pub use self::_7_bloom::*;

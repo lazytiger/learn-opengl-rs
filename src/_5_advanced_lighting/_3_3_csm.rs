@@ -59,6 +59,7 @@ pub fn main_5_3_3() {
     let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
     glfw.window_hint(glfw::WindowHint::ContextVersion(3, 3));
     glfw.window_hint(glfw::WindowHint::OpenGlProfile(glfw::OpenGlProfileHint::Core));
+    glfw.window_hint(glfw::WindowHint::Resizable(false));
     #[cfg(target_os = "macos")]
         glfw.window_hint(glfw::WindowHint::OpenGlForwardCompat(true));
 
@@ -264,124 +265,5 @@ pub fn processInput(window: &mut glfw::Window, deltaTime: f32, camera: &mut Came
     if window.get_key(Key::D) == Action::Press {
         camera.ProcessKeyboard(RIGHT, deltaTime);
     }
-}
-
-unsafe fn renderScene(shader: &Shader, cubeVAO: u32) {
-    let mut model = Matrix4::identity();
-    model = Matrix4::from_scale(5.0) * model;
-    shader.setMat4(c_str!("model"), &model);
-    gl::Disable(gl::CULL_FACE);
-    shader.setInt(c_str!("reverse_normals"), 1);
-    renderCube(cubeVAO);
-
-    shader.setInt(c_str!("reverse_normals"), 0);
-    gl::Enable(gl::CULL_FACE);
-
-    model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(4.0, -3.5, 0.0)) * model;
-    model = Matrix4::from_scale(0.5) * model;
-    shader.setMat4(c_str!("model"), &model);
-    renderCube(cubeVAO);
-
-    model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(2.0, 3.0, 1.0)) * model;
-    model = Matrix4::from_scale(0.75) * model;
-    shader.setMat4(c_str!("model"), &model);
-    renderCube(cubeVAO);
-
-    model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(-3.0, -1.0, 0.0)) * model;
-    model = Matrix4::from_scale(0.75) * model;
-    shader.setMat4(c_str!("model"), &model);
-    renderCube(cubeVAO);
-
-    model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(-1.5, 1.0, 1.5)) * model;
-    model = Matrix4::from_scale(0.75) * model;
-    shader.setMat4(c_str!("model"), &model);
-    renderCube(cubeVAO);
-
-    model = Matrix4::identity();
-    model = Matrix4::from_translation(vec3(-1.5, 2.0, -3.0)) * model;
-    model = Matrix4::from_axis_angle(vec3(1.0, 0.0, 1.0).normalize(), Deg(60.0)) * model;
-    model = Matrix4::from_scale(0.75) * model;
-    shader.setMat4(c_str!("model"), &model);
-    renderCube(cubeVAO);
-}
-
-unsafe fn renderCube(cubeVAO: u32) {
-    gl::BindVertexArray(cubeVAO);
-    gl::DrawArrays(gl::TRIANGLES, 0, 36);
-    gl::BindVertexArray(0);
-}
-
-unsafe fn initializeCube() -> (u32, u32) {
-    let (mut cubeVAO, mut cubeVBO) = (0u32, 0u32);
-    let vertices: [f32; 36 * 8] = [
-        // back face
-        -1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // bottom-left
-        1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 1.0, // top-right
-        1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 0.0, // bottom-right
-        1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 1.0, 1.0, // top-right
-        -1.0, -1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // bottom-left
-        -1.0, 1.0, -1.0, 0.0, 0.0, -1.0, 0.0, 1.0, // top-left
-        // front face
-        -1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, // bottom-left
-        1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, // bottom-right
-        1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, // top-right
-        1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, // top-right
-        -1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, // top-left
-        -1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, // bottom-left
-        // left face
-        -1.0, 1.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0, // top-right
-        -1.0, 1.0, -1.0, -1.0, 0.0, 0.0, 1.0, 1.0, // top-left
-        -1.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, // bottom-left
-        -1.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, // bottom-left
-        -1.0, -1.0, 1.0, -1.0, 0.0, 0.0, 0.0, 0.0, // bottom-right
-        -1.0, 1.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0, // top-right
-        // right face
-        1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, // top-left
-        1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 0.0, 1.0, // bottom-right
-        1.0, 1.0, -1.0, 1.0, 0.0, 0.0, 1.0, 1.0, // top-right
-        1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 0.0, 1.0, // bottom-right
-        1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, // top-left
-        1.0, -1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, // bottom-left
-        // bottom face
-        -1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 0.0, 1.0, // top-right
-        1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 1.0, 1.0, // top-left
-        1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, // bottom-left
-        1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, // bottom-left
-        -1.0, -1.0, 1.0, 0.0, -1.0, 0.0, 0.0, 0.0, // bottom-right
-        -1.0, -1.0, -1.0, 0.0, -1.0, 0.0, 0.0, 1.0, // top-right
-        // top face
-        -1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 0.0, 1.0, // top-left
-        1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, // bottom-right
-        1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 1.0, 1.0, // top-right
-        1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, // bottom-right
-        -1.0, 1.0, -1.0, 0.0, 1.0, 0.0, 0.0, 1.0, // top-left
-        -1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0  // bottom-left
-    ];
-    gl::GenVertexArrays(1, &mut cubeVAO);
-    gl::GenBuffers(1, &mut cubeVBO);
-
-    gl::BindBuffer(gl::ARRAY_BUFFER, cubeVAO);
-    gl::BufferData(gl::ARRAY_BUFFER,
-                   (vertices.len() * std::mem::size_of::<GLfloat>()) as GLsizeiptr,
-                   &vertices[0] as *const f32 as *const c_void,
-                   gl::STATIC_DRAW);
-
-    let stride = (8 * std::mem::size_of::<GLfloat>()) as GLsizei;
-
-    gl::BindVertexArray(cubeVAO);
-    gl::EnableVertexAttribArray(0);
-    gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE, stride, std::ptr::null());
-    gl::EnableVertexAttribArray(1);
-    gl::VertexAttribPointer(1, 3, gl::FLOAT, gl::FALSE, stride, (3 * std::mem::size_of::<GLfloat>()) as *const c_void);
-    gl::EnableVertexAttribArray(2);
-    gl::VertexAttribPointer(2, 2, gl::FLOAT, gl::FALSE, stride, (6 * std::mem::size_of::<GLfloat>()) as *const c_void);
-    gl::BindBuffer(gl::ARRAY_BUFFER, 0);
-    gl::BindVertexArray(0);
-
-    (cubeVAO, cubeVBO)
 }
 
